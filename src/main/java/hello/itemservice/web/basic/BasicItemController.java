@@ -76,6 +76,21 @@ public class BasicItemController {
         return "basic/item";
     }
 
+    @GetMapping("/{itemId}/edit")
+    public String editForm(@PathVariable Long itemId, Model model){
+        Item item = itemRepository.findById(itemId);
+        model.addAttribute("item", item);
+        return "basic/editForm";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String editItem(@PathVariable Long itemId, @ModelAttribute Item item){
+        itemRepository.update(itemId, item);
+        // path variable에 있는 것을 그대로 사용 가능
+        // 다음과 같이 반환해서 redirection 가능하다.
+        return "redirect:/basic/items/{itemId}";
+    }
+
     /**
      * test data 추가
      */
